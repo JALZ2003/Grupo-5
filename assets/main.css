@@ -1,0 +1,165 @@
+/*==========================================================================================*/
+/* General Styles */
+
+.logo {
+    width: 100%;
+    height: 100%;
+}
+
+.imagen_carrousel{
+    width: 100%;
+    height: 300px;
+}
+
+.navbar-nav, .me-auto {
+    flex: 1;
+    display: flex;
+    justify-content: end;
+}
+
+.navbar-brand {
+    width: 10%;
+}
+
+.button-Shadow {
+    box-shadow: 5px 5px 3px black;
+}
+
+.button-Shadow:hover {
+    margin-top: 4px;
+    margin-left: 4px;
+    box-shadow: 0px 0px 0px black;
+}
+
+.slide-container {
+    max-width: 95%;
+    width: 100%;
+    padding: 40px 0;
+}
+.slide-content{
+    margin: 0 60px;
+    overflow: hidden;
+}
+.swiper-navBtn {
+    color: #6E93f7;
+    transition: color 0.3s ease;
+}
+
+.swiper-navBtn:hover {
+    color: #4070F4;
+}
+
+.swiper-navBtn::before,
+.swiper-navBtn::after {
+    font-size: 40px;
+}
+
+.swiper-button-next {
+    right: 0;
+}
+.swiper-button-prev {
+    right: 0;
+}
+.swiper-pagination-bullet {
+    background-color: #6E93f7;
+    opacity: 1;
+}
+.swiper-pagination-bullet-active {
+    background-color: #4070F4;
+}
+
+/*==========================================================================================*/
+/* Page Home */
+
+.image-card{
+    height: 200px;
+}
+
+/*==========================================================================================*/
+/* Page UpcomingEvents */
+
+
+
+/*==========================================================================================*/
+/* Page PastEvents */
+
+.d-img {
+    height: 100%;
+    object-fit: cover;
+    filter:brightness(0.6);
+}
+
+.d-item {
+    height: 250px;
+}
+/* .container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+} */
+/*==========================================================================================*/
+/* Page Contact */
+
+.first-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    min-height: 100vh;
+}
+
+/*==========================================================================================*/
+/* Page Details */
+
+/* The Shaded border is added to the parent container */
+.container {
+    border: 2px solid rgb(19, 17, 17);
+    box-shadow: 3px 3px 6px rgba(241, 143, 143, 0.5);
+    border-radius: 10px;
+}
+
+.title{
+    text-align: center;
+    font-size: 14px;
+}
+
+.img-1{
+    width: 1920px;
+    height: 500px;
+    border-left: 0px solid black;
+    border-top: 0px solid black;
+    box-shadow: -10px -5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.img-2 {
+    filter:brightness(0.9);
+}
+
+@media only screen and (min-width: 992px) {
+    .title {
+        font-size: 23px;
+        justify-content: left;
+        margin-top: 3px;
+    }
+}
+
+@media only screen and (max-width: 320px) and (max-height: 570px) {
+    .title {
+        font-size: 11px;
+    }
+}
+
+/* Este div contiene todo el from*/
+.container-text h6{
+    color:black
+}
+
+/*==========================================================================================*/
+/* Page Stats */
+
+
+
+/*==========================================================================================*/
