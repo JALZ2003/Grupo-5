@@ -54,40 +54,23 @@ categoriasEventos.forEach(r => {
 let soloEventos = eventos.eventos
 const allChecks = document.querySelectorAll(".form-check-input")
 
-allChecks.forEach(e => {
-    let check = document.getElementById(e.id)
-        
-    check.addEventListener("change", function () {
-    
-        if(check.checked) {
-            eventos.eventos = filtroCheck(eventos.eventos, e.id)
-            addHomeEvents();
-            console.log("Se activó")
-          } else {
-            eventos.eventos = soloEventos
-            addHomeEvents();
-            console.log("Se desactivó")
-          }
-    })
-    console.log(e.id)
-})
+function filtrar() {
+    const valores = [...allChecks].filter(f => f.checked).map(f => f.value);
+    if (valores.length === 0) {
+        eventos.eventos = soloEventos
+        console.log(eventos.eventos)
+        // addHomeEvents()
+    } else {
+        const eventosFiltrados = soloEventos.filter(e => {
+            const categorias = e.category.split(', ');
+            return categorias.some(c => valores.includes(c));
+        });
+        eventos.eventos = eventosFiltrados
+        console.log(eventos.eventos)
+        // addHomeEvents()
+    }
 
-function filtroCheck(array,categoria) {
-    return array.filter(n=> n.category == categoria)
 }
 
-// let check1 = document.getElementById("Food Fair")
-
-// check1.addEventListener("change", function () {
-    
-//     if(check1.checked) {
-//         eventos.eventos = filtroCheck(eventos.eventos,"Food Fair")
-//         addHomeEvents();
-//         console.log("Se activó")
-//       } else {
-//         eventos.eventos = soloEventos
-//         addHomeEvents();
-//         console.log("Se desactivó")
-//       }
-// })
-
+allChecks.forEach(f => f.addEventListener('change', filtrar));
+filtrar();
