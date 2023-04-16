@@ -75,6 +75,11 @@
     height: 200px;
 }
 
+.containerCheck {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
 /*==========================================================================================*/
 /* Page UpcomingEvents */
 

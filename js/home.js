@@ -1,8 +1,15 @@
 
 const container = document.querySelector('.swiper-wrapper');
 const search = document.querySelector('#search');
+const allChecks = document.querySelectorAll(".form-check-input")
+const categoriasEventos = [...new Set(eventos.eventos.map(r => r.category))]
+let soloEventos = eventos.eventos
 
 addHomeEvents();
+
+allChecks.forEach(f => f.addEventListener('change', filtrar));
+
+filtrar();
 
 search.addEventListener('input', () => { });
 
@@ -23,6 +30,17 @@ var swiper = new Swiper(".slide-content", {
     },
 });
 
+categoriasEventos.forEach(r => {
+    const checksHome = document.getElementById("checksHome")
+    let check = document.createElement('div');
+    check.className = "form-check form-check-inline"
+    check.innerHTML = `
+    <input class="form-check-input" type="checkbox" id="${r}" value="${r}">
+    <label class="form-check-label" for="${r}">${r}</label>
+          `
+    checksHome.appendChild(check)
+});
+
 function addHomeEvents() {
     for (let i = 0; i < eventos.eventos.length; i++) {
         const slide = document.createElement('div');
@@ -37,6 +55,24 @@ function addHomeEvents() {
         slide.appendChild(homeEvents);
         container.appendChild(slide);
     }
+}
+
+function filtrar() {
+    const valores = [...allChecks].filter(f => f.checked).map(f => f.value);
+    if (valores.length === 0) {
+        eventos.eventos = soloEventos
+        console.log(eventos.eventos)
+        // addHomeEvents()
+    } else {
+        const eventosFiltrados = soloEventos.filter(e => {
+            const categorias = e.category.split(', ');
+            return categorias.some(c => valores.includes(c));
+        });
+        eventos.eventos = eventosFiltrados
+        console.log(eventos.eventos)
+        // addHomeEvents()
+    }
+
 }
 
 function filterSearch(list) {
