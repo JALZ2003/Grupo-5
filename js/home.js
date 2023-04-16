@@ -1,24 +1,17 @@
 
 const container = document.querySelector('.swiper-wrapper');
-
-function addHomeEvents() {
-    container.innerHTML = '';
-    for (let i = 0; i < eventos.eventos.length; i++) {
-        const slide = document.createElement('div');
-        slide.classList.add("swiper-slide");
-        let CardImage = eventos.eventos[i].image;
-        let CardName = eventos.eventos[i].name;
-        let CardDescription = eventos.eventos[i].description;
-        let CardPrice = eventos.eventos[i].price;
-        const homeEvents = createCardDiv(CardImage, CardName, CardDescription, CardPrice,
-            eventos.eventos[i].date, eventos.eventos[i].category, eventos.eventos[i].place, eventos.eventos[i].capacity,
-            eventos.eventos[i].assistance || eventos.eventos[i].estimate);
-        slide.appendChild(homeEvents);
-        container.appendChild(slide);
-    }
-}
+const search = document.querySelector('#search');
+const allChecks = document.querySelectorAll(".form-check-input")
+const categoriasEventos = [...new Set(eventos.eventos.map(r => r.category))]
+let soloEventos = eventos.eventos
 
 addHomeEvents();
+
+allChecks.forEach(f => f.addEventListener('change', filtrar));
+
+filtrar();
+
+search.addEventListener('input', () => { });
 
 var swiper = new Swiper(".slide-content", {
     slidesPerView: 4,
@@ -37,8 +30,6 @@ var swiper = new Swiper(".slide-content", {
     },
 });
 
-const categoriasEventos = [...new Set(eventos.eventos.map(r => r.category))]
-
 categoriasEventos.forEach(r => {
     const checksHome = document.getElementById("checksHome")
     let check = document.createElement('div');
@@ -50,9 +41,21 @@ categoriasEventos.forEach(r => {
     checksHome.appendChild(check)
 });
 
-
-let soloEventos = eventos.eventos
-const allChecks = document.querySelectorAll(".form-check-input")
+function addHomeEvents() {
+    for (let i = 0; i < eventos.eventos.length; i++) {
+        const slide = document.createElement('div');
+        slide.classList.add("swiper-slide");
+        let CardImage = eventos.eventos[i].image;
+        let CardName = eventos.eventos[i].name;
+        let CardDescription = eventos.eventos[i].description;
+        let CardPrice = eventos.eventos[i].price;
+        const homeEvents = createCardDiv(CardImage, CardName, CardDescription, CardPrice,
+            eventos.eventos[i].date, eventos.eventos[i].category, eventos.eventos[i].place, eventos.eventos[i].capacity,
+            eventos.eventos[i].assistance || eventos.eventos[i].estimate);
+        slide.appendChild(homeEvents);
+        container.appendChild(slide);
+    }
+}
 
 function filtrar() {
     const valores = [...allChecks].filter(f => f.checked).map(f => f.value);
@@ -72,5 +75,10 @@ function filtrar() {
 
 }
 
-allChecks.forEach(f => f.addEventListener('change', filtrar));
-filtrar();
+function filterSearch(list) {
+    return list.filter(element => wordSearch(search.value, element));
+}
+
+const toLowerWords = (word) => { return word.toLowerCase(); };
+
+const wordSearch = (word, title) => { return toLowerWords(title.name).includes(toLowerWords(word)); };
