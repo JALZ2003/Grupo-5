@@ -6,12 +6,8 @@
     height: 100%;
 }
 
-.imagen_carrousel{
-    width: 100%;
-    height: 300px;
-}
-
-.navbar-nav, .me-auto {
+.navbar-nav,
+.me-auto {
     flex: 1;
     display: flex;
     justify-content: end;
@@ -26,20 +22,33 @@
 }
 
 .button-Shadow:hover {
-    margin-top: 4px;
-    margin-left: 4px;
     box-shadow: 0px 0px 0px black;
+    color: black !important;
+    background-color: white !important;
+    border: 1px solid black !important;
+    border-radius: 8px !important;
+}
+
+/* Slidesr Swiper */
+
+.card {
+    height: 425px !important;
 }
 
 .slide-container {
     max-width: 95%;
     width: 100%;
     padding: 40px 0;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
-.slide-content{
-    margin: 0 60px;
+
+.slide-content {
+    height: 450px;
+    margin: 0 40px;
     overflow: hidden;
 }
+
 .swiper-navBtn {
     color: #6E93f7;
     transition: color 0.3s ease;
@@ -57,29 +66,29 @@
 .swiper-button-next {
     right: 0;
 }
+
 .swiper-button-prev {
     right: 0;
 }
-.swiper-pagination-bullet {
-    background-color: #6E93f7;
-    opacity: 1;
-}
-.swiper-pagination-bullet-active {
-    background-color: #4070F4;
+
+.emptyEvents {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
 }
 
 /*==========================================================================================*/
 /* Page Home */
-
-.image-card{
-    height: 200px;
-}
 
 .containerCheck {
     width: 90%;
     margin-left: auto;
     margin-right: auto;
 }
+
 /*==========================================================================================*/
 /* Page UpcomingEvents */
 
@@ -91,24 +100,17 @@
 .d-img {
     height: 100%;
     object-fit: cover;
-    filter:brightness(0.6);
+    filter: brightness(0.6);
 }
 
 .d-item {
     height: 250px;
 }
-/* .container {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-} */
+
 /*==========================================================================================*/
 /* Page Contact */
 
-.first-container{
+.first-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -126,12 +128,12 @@
     border-radius: 10px;
 }
 
-.title{
+.title {
     text-align: center;
     font-size: 14px;
 }
 
-.img-1{
+.img-1 {
     width: 1920px;
     height: 500px;
     border-left: 0px solid black;
@@ -140,7 +142,7 @@
 }
 
 .img-2 {
-    filter:brightness(0.9);
+    filter: brightness(0.9);
 }
 
 @media only screen and (min-width: 992px) {
@@ -158,8 +160,8 @@
 }
 
 /* Este div contiene todo el from*/
-.container-text h6{
-    color:black
+.container-text h6 {
+    color: black
 }
 
 /*==========================================================================================*/
