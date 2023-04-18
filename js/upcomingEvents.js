@@ -1,11 +1,9 @@
 
-const eventsUpcoming = eventos.eventos.filter(evento => new Date(evento.date).getTime() > fechaActualTimestamp);
-
 insertCategory();
-addEventsCheckbox(eventsUpcoming);
-insertCards(eventsUpcoming);
+addEventsCheckbox(eventsUpcoming, 'upcoming');
+insertCards(eventsUpcoming, 'upcoming');
 
-filterButton.addEventListener('click', () => { validateEmptyList(eventsUpcoming) });
+filterButton.addEventListener('click', () => { validateEmptyList(eventsUpcoming, 'upcoming') });
 
 let swiper = new Swiper(".slide-content", {
     slidesPerView: 4,

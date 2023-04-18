@@ -1,10 +1,9 @@
-const eventsPast = eventos.eventos.filter(evento => new Date(evento.date).getTime() < fechaActualTimestamp);
 
 insertCategory();
-addEventsCheckbox(eventsPast);
-insertCards(eventsPast);
+addEventsCheckbox(eventsPast, 'past');
+insertCards(eventsPast, 'past');
 
-filterButton.addEventListener('click', () => { validateEmptyList(eventsPast) });
+filterButton.addEventListener('click', () => { validateEmptyList(eventsPast, 'past') });
 
 let swiper = new Swiper(".slide-content", {
     slidesPerView: 4,

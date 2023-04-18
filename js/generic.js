@@ -1,6 +1,7 @@
 const search = document.querySelector('#search');
 const filterButton = document.querySelector('#filter');
 const container = document.querySelector('.swiper-wrapper');
+
 const eventos = {
     "fechaActual": "2022-01-01",
     "eventos": [
@@ -164,6 +165,8 @@ const eventos = {
 let soloEventos = eventos.eventos;
 
 const fechaActualTimestamp = new Date('2022-01-01').getTime();
+const eventsPast = eventos.eventos.filter(evento => new Date(evento.date).getTime() < fechaActualTimestamp);
+const eventsUpcoming = eventos.eventos.filter(evento => new Date(evento.date).getTime() > fechaActualTimestamp);
 
 // Crear las etiquetas correspondientes de Events.html
 function createCard(image, name, description, price, id, page) {
@@ -173,7 +176,7 @@ function createCard(image, name, description, price, id, page) {
                     <h5 class="card-title">${name}</h5>
                     <p class="card-text">${description}</p>
                     <p class="card-text">Price: ${price}</p>
-                    <a id="${id}" page="${page}" href="#" class="btn btn-primary button-Shadow" onclick="saveId(id, page)"> Details </a>
+                    <a id="${id}-${page}" href="details.html" class="btn btn-primary button-Shadow" onclick="saveId(id)"> Details </a>
                 </div>
             </div>`;
 }
@@ -189,21 +192,19 @@ function setDetails(image, name, date, description, category, place, capacity, a
     let assistanceElement = document.getElementById('assistance');
     let priceElement = document.getElementById('price');
 
-    console.log(imageElement);
-    console.log(nameElement);
-    console.log(dateElement);
-    console.log(descriptionElement);
-    console.log(categoryElement);
-    console.log(placeElement);
-    console.log(capacityElement);
-    console.log(assistanceElement);
-    console.log(priceElement);
+    imageElement.src = image;
+    nameElement.textContent = name;
+    dateElement.textContent = date;
+    descriptionElement.textContent = description;
+    categoryElement.textContent = category;
+    placeElement.textContent = place;
+    capacityElement.textContent = capacity;
+    assistanceElement.textContent = assistance;
+    priceElement.textContent = price;
 }
 
-function saveId(id, page) {
-    console.log(id, page);
+function saveId(id) {
     sessionStorage.setItem('id', id);
-    sessionStorage.setItem('page', page);
 }
 
 function insertCards(list, page) {
