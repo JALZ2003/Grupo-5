@@ -1,3 +1,7 @@
+const search = document.querySelector('#search');
+const filterButton = document.querySelector('#filter');
+const container = document.querySelector('.swiper-wrapper');
+
 const eventos = {
     "fechaActual": "2022-01-01",
     "eventos": [
@@ -158,59 +162,122 @@ const eventos = {
     ]
 }
 
+let soloEventos = eventos.eventos;
+
 const fechaActualTimestamp = new Date('2022-01-01').getTime();
+const eventsPast = eventos.eventos.filter(evento => new Date(evento.date).getTime() < fechaActualTimestamp);
+const eventsUpcoming = eventos.eventos.filter(evento => new Date(evento.date).getTime() > fechaActualTimestamp);
 
 // Crear las etiquetas correspondientes de Events.html
-function createCardDiv(CardImage, CardName, CardDescription, CardPrice, cardDate, cardCategory, cardPlace, cardCapacity, cardAssistance) {
-    const cardDiv = document.createElement('div');
-    const card = document.createElement('div');
-    const img = document.createElement('img');
-    const cardBody = document.createElement('div');
-    const title = document.createElement('h5');
-    const description = document.createElement('p');
-    const price = document.createElement('p');
-    const detailsLink = document.createElement('a');
-
-    // Agregar las clases que tienen las etiquetas en el html principal
-    cardDiv.classList.add('card-body', 'd-flex', 'justify-content-around', 'pt-5', 'flex-wrap', 'mb-5');
-    card.classList.add('card');
-    img.classList.add('image-card', 'card-img-top', 'p-3', 'shadow');
-    cardBody.classList.add('card-body');
-    title.classList.add('card-title', 'text-center');
-    description.classList.add('card-text', 'w-80', 'p-1');
-    detailsLink.classList.add('btn', 'btn-primary', 'button-Shadow');
-    detailsLink.addEventListener('click', () => { 
-        sessionStorage.setItem('imagen', JSON.stringify(CardImage));
-        sessionStorage.setItem('nombre', JSON.stringify(CardName));
-        sessionStorage.setItem('descripcion', JSON.stringify(CardDescription));
-        sessionStorage.setItem('precio', JSON.stringify(CardPrice));
-        sessionStorage.setItem('date', JSON.stringify(cardDate));
-        sessionStorage.setItem('category', JSON.stringify(cardCategory));
-        sessionStorage.setItem('place', JSON.stringify(cardPlace));
-        sessionStorage.setItem('capacity', JSON.stringify(cardCapacity));
-        sessionStorage.setItem('asistance', JSON.stringify(cardAssistance));
-        window.location.href = '../pages/details.html';
-    });
-
-    // se agrego  los atributos que contenian las etiquetas en el html
-    card.style.width = "18rem";
-    img.src = CardImage;
-    img.alt = 'weddings';
-    title.textContent = CardName;
-    description.textContent = CardDescription;
-    price.textContent = `Price: ${CardPrice}`;
-    detailsLink.href = './details.html';
-    detailsLink.textContent = 'Details';
-
-    // Construir la tarjeta de bodas
-    cardBody.appendChild(title);
-    cardBody.appendChild(description);
-    cardBody.appendChild(price);
-    cardBody.appendChild(detailsLink);
-    card.appendChild(img);
-    card.appendChild(cardBody);
-    cardDiv.appendChild(card);
-
-    return cardDiv;
+function createCard(image, name, description, price, id, page) {
+    return `<div class="card" style="width: 18rem;">
+                <img src="${image}" class="card-img-top" alt="${name}">
+                <div class="card-body">
+                    <h5 class="card-title">${name}</h5>
+                    <p class="card-text">${description}</p>
+                    <p class="card-text">Price: ${price}</p>
+                    <a id="${id}-${page}" href="details.html" class="btn btn-primary button-Shadow" onclick="saveId(id)"> Details </a>
+                </div>
+            </div>`;
 }
 
+function setDetails(image, name, date, description, category, place, capacity, assistance, price) {
+    let imageElement = document.getElementById('image');
+    let nameElement = document.getElementById('name');
+    let dateElement = document.getElementById('date');
+    let descriptionElement = document.getElementById('description');
+    let categoryElement = document.getElementById('category');
+    let placeElement = document.getElementById('place');
+    let capacityElement = document.getElementById('capacity');
+    let assistanceElement = document.getElementById('assistance');
+    let priceElement = document.getElementById('price');
+
+    imageElement.src = image;
+    nameElement.textContent = name;
+    dateElement.textContent = date;
+    descriptionElement.textContent = description;
+    categoryElement.textContent = category;
+    placeElement.textContent = place;
+    capacityElement.textContent = capacity;
+    assistanceElement.textContent = assistance;
+    priceElement.textContent = price;
+}
+
+function saveId(id) {
+    sessionStorage.setItem('id', id);
+}
+
+function insertCards(list, page) {
+    removeElements();
+    for (let i = 0; i < list.length; i++) {
+        const slide = document.createElement('div');
+        slide.classList.add("swiper-slide");
+        const card = createCard(list[i].image, list[i].name, list[i].description, list[i].price, i, page);
+        slide.innerHTML += card;
+        container.appendChild(slide);
+    }
+}
+
+function removeElements() {
+    container.innerHTML = '';
+}
+
+function validateEmptyList(list, page) {
+    removeElements();
+    if (filters(list).length != 0) {
+        insertCards(filters(list), page);
+        return;
+    }
+    let div = document.createElement('div');
+    div.classList.add('emptyEvents');
+    div.textContent = 'No existe el evento';
+    container.appendChild(div);
+}
+
+function filters(list) {
+    return filterSearch(filtrarCheckBox(list));
+}
+
+function filtrarCheckBox(list) {
+    const allChecks = document.querySelectorAll(".form-check-input");
+    const valores = [...allChecks].filter(f => f.checked).map(f => f.value);
+    if (valores.length === 0) {
+        eventos.eventos = list;
+        return eventos.eventos;
+    } else {
+        const eventosFiltrados = list.filter(e => {
+            const categorias = e.category.split(', ');
+            return categorias.some(c => valores.includes(c));
+        });
+        eventos.eventos = eventosFiltrados
+        return eventos.eventos;
+    }
+}
+
+function insertCategory() {
+    const categoriasEventos = [...new Set(eventos.eventos.map(r => r.category))];
+
+    categoriasEventos.forEach(r => {
+        const checksHome = document.getElementById("checksHome")
+        let check = document.createElement('div');
+        check.className = "form-check form-check-inline"
+        check.innerHTML = `
+            <input class="form-check-input" type="checkbox" id="${r}" value="${r}">
+            <label class="form-check-label" for="${r}">${r}</label>
+          `
+        checksHome.appendChild(check)
+    });
+}
+
+function addEventsCheckbox(list, page) {
+    const allChecks = document.querySelectorAll(".form-check-input");
+    allChecks.forEach(f => f.addEventListener('change', () => { validateEmptyList(list, page) }));
+}
+
+function filterSearch(list) {
+    return list.filter(element => wordSearch(search.value, element));
+}
+
+const toLowerWords = (word) => { return word.toLowerCase(); };
+
+const wordSearch = (word, title) => { return toLowerWords(title.name).includes(toLowerWords(word)); };
