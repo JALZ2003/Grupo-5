@@ -242,15 +242,12 @@ function filtrarCheckBox(list) {
     const allChecks = document.querySelectorAll(".form-check-input");
     const valores = [...allChecks].filter(f => f.checked).map(f => f.value);
     if (valores.length === 0) {
-        eventos.eventos = list;
-        return eventos.eventos;
+        return list;
     } else {
-        const eventosFiltrados = list.filter(e => {
+        return eventosFiltrados = list.filter(e => {
             const categorias = e.category.split(', ');
             return categorias.some(c => valores.includes(c));
         });
-        eventos.eventos = eventosFiltrados
-        return eventos.eventos;
     }
 }
 
