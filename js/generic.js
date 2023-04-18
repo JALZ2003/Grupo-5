@@ -1,6 +1,8 @@
 const search = document.querySelector('#search');
 const filterButton = document.querySelector('#filter');
-const container = document.querySelector('.swiper-wrapper');
+const containerCards = document.querySelector('.swiper-wrapper');
+const containerSlide = document.querySelector('.slide-container');
+const containerMensaje = document.querySelector('.mensaje');
 
 const eventos = {
     "fechaActual": "2022-01-01",
@@ -221,24 +223,27 @@ function insertCards(list, page) {
         slide.classList.add("swiper-slide");
         const card = createCard(list[i].image, list[i].name, list[i].description, list[i].price, i, page);
         slide.innerHTML += card;
-        container.appendChild(slide);
+        containerCards.appendChild(slide);
     }
 }
 
 function removeElements() {
-    container.innerHTML = '';
+    containerCards.innerHTML = '';
+    containerMensaje.innerHTML = '';
 }
 
 function validateEmptyList(list, page) {
     removeElements();
     if (filters(list).length != 0) {
+        containerSlide.style.display = "block"
         insertCards(filters(list), page);
         return;
     }
     let div = document.createElement('div');
     div.classList.add('emptyEvents');
     div.textContent = 'No existe el evento';
-    container.appendChild(div);
+    containerSlide.style.display = "none"
+    containerMensaje.appendChild(div);
 }
 
 function filters(list) {
