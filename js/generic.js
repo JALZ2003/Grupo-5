@@ -1,6 +1,8 @@
 const search = document.querySelector('#search');
 const filterButton = document.querySelector('#filter');
-const container = document.querySelector('.swiper-wrapper');
+const containerCards = document.querySelector('.swiper-wrapper');
+const containerSlide = document.querySelector('.slide-container');
+const containerMensaje = document.querySelector('.mensaje');
 
 const eventos = {
     "fechaActual": "2022-01-01",
@@ -170,16 +172,23 @@ const eventsUpcoming = eventos.eventos.filter(evento => new Date(evento.date).ge
 
 // Crear las etiquetas correspondientes de Events.html
 function createCard(image, name, description, price, id, page) {
-    return `<div class="card" style="width: 18rem;">
-                <img src="${image}" class="card-img-top" alt="${name}">
-                <div class="card-body">
-                    <h5 class="card-title">${name}</h5>
-                    <p class="card-text">${description}</p>
-                    <p class="card-text">Price: ${price}</p>
-                    <a id="${id}-${page}" href="details.html" class="btn btn-primary button-Shadow" onclick="saveId(id)"> Details </a>
-                </div>
-            </div>`;
+    return `
+    <div class="card h-100">
+      <img src="${image}" class="card-img-top imgcard" alt="${name}">
+      <div class="card-body">
+        <h5 class="card-title">${name}</h5>
+        <p class="card-text">${description}</p>
+      </div>
+      <div class="card-footer bg-transparent d-flex justify-content-between flex-wrap text-center">
+        <small class="card-text mt-2 mb-2 ms-1">Price: ${price}</small>
+        <a id="${id}-${page}" href="details.html" class="btn btn-primary button-Shadow me-1" onclick="saveId(id)">Details</a>
+      </div>
+    </div>
+  </div>
+    `
 }
+
+
 
 function setDetails(image, name, date, description, category, place, capacity, assistance, price) {
     let imageElement = document.getElementById('image');
@@ -214,24 +223,27 @@ function insertCards(list, page) {
         slide.classList.add("swiper-slide");
         const card = createCard(list[i].image, list[i].name, list[i].description, list[i].price, i, page);
         slide.innerHTML += card;
-        container.appendChild(slide);
+        containerCards.appendChild(slide);
     }
 }
 
 function removeElements() {
-    container.innerHTML = '';
+    containerCards.innerHTML = '';
+    containerMensaje.innerHTML = '';
 }
 
 function validateEmptyList(list, page) {
     removeElements();
     if (filters(list).length != 0) {
+        containerSlide.style.display = "block"
         insertCards(filters(list), page);
         return;
     }
     let div = document.createElement('div');
     div.classList.add('emptyEvents');
     div.textContent = 'No existe el evento';
-    container.appendChild(div);
+    containerSlide.style.display = "none"
+    containerMensaje.appendChild(div);
 }
 
 function filters(list) {
