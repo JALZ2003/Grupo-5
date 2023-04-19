@@ -1,9 +1,9 @@
 
 insertCategory();
-addEventsCheckbox(soloEventos, 'home');
-insertCards(soloEventos, 'home');
+addEventsCheckbox(soloEventos);
+insertCards(soloEventos);
 
-filterButton.addEventListener('click', () => { validateEmptyList(soloEventos, 'home') });
+filterButton.addEventListener('click', () => { validateEmptyList(soloEventos) });
 
 let swiper = new Swiper(".slide-content", {
     slidesPerView: 1,
@@ -15,9 +15,9 @@ let swiper = new Swiper(".slide-content", {
     grabCursor: 'true',
     navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
     breakpoints: {
-        540: {slidesPerView: 2, slidesPerGroup: 2, spaceBetween: 40},
-        820: {slidesPerView: 3, slidesPerGroup: 3, spaceBetween: 40},
-        1240: {slidesPerView: 4, slidesPerGroup: 4, spaceBetween: 40},
+        540: { slidesPerView: 2, slidesPerGroup: 2, spaceBetween: 40 },
+        820: { slidesPerView: 3, slidesPerGroup: 3, spaceBetween: 40 },
+        1240: { slidesPerView: 4, slidesPerGroup: 4, spaceBetween: 40 },
     }
 });
 
