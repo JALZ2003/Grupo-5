@@ -172,23 +172,18 @@ const eventsUpcoming = eventos.eventos.filter(evento => new Date(evento.date).ge
 
 // Crear las etiquetas correspondientes de Events.html
 function createCard(image, name, description, price, id, page) {
-    return `
-    <div class="card h-100">
-      <img src="${image}" class="card-img-top imgcard" alt="${name}">
-      <div class="card-body">
-        <h5 class="card-title">${name}</h5>
-        <p class="card-text">${description}</p>
-      </div>
-      <div class="card-footer bg-transparent d-flex justify-content-between flex-wrap text-center">
-        <small class="card-text mt-2 mb-2 ms-1">Price: ${price}</small>
-        <a id="${id}-${page}" href="details.html" class="btn btn-primary button-Shadow me-1" onclick="saveId(id)">Details</a>
-      </div>
-    </div>
-  </div>
-    `
+    return `<div class="card h-100">
+                <img src="${image}" class="card-img-top imgcard" alt="${name}">
+                <div class="card-body">
+                    <h5 class="card-title">${name}</h5>
+                    <p class="card-text">${description}</p>
+                </div>
+                <div class="card-footer bg-transparent d-flex justify-content-between flex-wrap text-center">
+                    <small class="card-text mt-2 mb-2 ms-1">Price: ${price}</small>
+                    <a id="${id}-${page}" href="details.html" class="btn btn-primary button-Shadow me-1" onclick="saveId(id)">Details</a>
+                </div>
+            </div>`
 }
-
-
 
 function setDetails(image, name, date, description, category, place, capacity, assistance, price) {
     let imageElement = document.getElementById('image');
@@ -270,10 +265,8 @@ function insertCategory() {
         const checksHome = document.getElementById("checksHome")
         let check = document.createElement('div');
         check.className = "form-check form-check-inline"
-        check.innerHTML = `
-            <input class="form-check-input" type="checkbox" id="${r}" value="${r}">
-            <label class="form-check-label" for="${r}">${r}</label>
-          `
+        check.innerHTML = `<input class="form-check-input" type="checkbox" id="${r}" value="${r}">
+                           <label class="form-check-label" for="${r}">${r}</label>`
         checksHome.appendChild(check)
     });
 }
