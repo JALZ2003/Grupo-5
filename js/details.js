@@ -1,10 +1,9 @@
 
 createDetails();
 
-function createDetails() {
+async function createDetails() {
     let id = JSON.parse(sessionStorage.getItem('id'));
-    let card = eventos.eventos.find(event => id == event.id);
-    console.log(card);
+    let card = await fetch(`https://pro-talento.up.railway.app/api/amazing/${id}`).then(response => response.json()).then(data => data.response);
     let assistance;
     if ("assistance" in card) {
         assistance = "Assistance: " + card.assistance;

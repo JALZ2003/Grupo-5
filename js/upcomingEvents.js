@@ -1,9 +1,8 @@
 
 insertCategory();
-addEventsCheckbox(eventsUpcoming);
-insertCards(eventsUpcoming);
+insertCards(eventsUpcoming());
 
-filterButton.addEventListener('click', () => { validateEmptyList(eventsUpcoming) });
+filterButton.addEventListener('click', () => { filters() });
 
 let swiper = new Swiper(".slide-content", {
     slidesPerView: 1,
