@@ -1,8 +1,8 @@
 
-insertCategory();
+insertCategory(urlapiHome + "?");
 insertCards(eventsFetch());
 
-filterButton.addEventListener('click', () => { filters(); });
+filterButton.addEventListener('click', () => { filters(urlapiHome + "?"); });
 
 let swiper = new Swiper(".slide-content", {
     slidesPerView: 1,

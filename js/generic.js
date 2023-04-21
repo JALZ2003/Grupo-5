@@ -3,11 +3,13 @@ const filterButton = document.querySelector('#filter');
 const containerCards = document.querySelector('.swiper-wrapper');
 const containerSlide = document.querySelector('.slide-container');
 const containerMensaje = document.querySelector('.mensaje');
-const urlapi = 'https://pro-talento.up.railway.app/api/amazing';
+const urlapiHome = 'https://pro-talento.up.railway.app/api/amazing';
+const urlapiPast = 'https://pro-talento.up.railway.app/api/amazing?time=past';
+const urlapiUpcommign = 'https://pro-talento.up.railway.app/api/amazing?time=upcoming';
 
 async function eventsFetch() {
     try {
-        let events = await fetch(urlapi).then(response => response.json()).then(datas => datas.response);
+        let events = await fetch(urlapiHome).then(response => response.json()).then(datas => datas.response);
         return events;
     } catch (error) {
         console.log(error);
@@ -16,8 +18,7 @@ async function eventsFetch() {
 
 async function eventsPast() {
     try {
-        let events = await fetch(urlapi + "?time=past").then(response => response.json()).then(datas => datas.response);
-        console.log(events);
+        let events = await fetch(urlapiPast).then(response => response.json()).then(datas => datas.response);
         return events;
     } catch (error) {
         console.log(error);
@@ -26,8 +27,7 @@ async function eventsPast() {
 
 async function eventsUpcoming() {
     try {
-        let events = await fetch(urlapi + "?time=upcoming").then(response => response.json()).then(datas => datas.response);
-        console.log(events);
+        let events = await fetch(urlapiUpcommign).then(response => response.json()).then(datas => datas.response);
         return events;
     } catch (error) {
         console.log(error);
@@ -92,7 +92,7 @@ function removeElements() {
     containerMensaje.innerHTML = '';
 }
 
-async function filters() {
+async function filters(url) {
     const allChecks = document.querySelectorAll(".form-check-input");
     const valores = [...allChecks].filter(f => f.checked).map(f => f.value);
     let categorys = "";
@@ -104,7 +104,7 @@ async function filters() {
             categorys += element;
         }
     }
-    let eventos = await fetch(urlapi + "?category=" + categorys + "&name=" + search.value).then(response => response.json()).then(datas => datas.response);
+    let eventos = await fetch(url + "category=" + categorys + "&name=" + search.value).then(response => response.json()).then(datas => datas.response);
     removeElements();
     if (eventos.length != 0) {
         containerSlide.style.display = "block";
@@ -118,7 +118,7 @@ async function filters() {
     containerMensaje.appendChild(div);
 }
 
-async function insertCategory() {
+async function insertCategory(url) {
     let eventos = await eventsFetch();
     const categoriasEventos = [...new Set(eventos.map(r => r.category))];
     const checksHome = document.getElementById("checksHome");
@@ -130,5 +130,5 @@ async function insertCategory() {
         checksHome.appendChild(check)
     });
     const allChecks = document.querySelectorAll(".form-check-input");
-    allChecks.forEach(f => f.addEventListener('change', () => { filters(); }));
+    allChecks.forEach(f => f.addEventListener('change', () => { filters(url); }));
 }
