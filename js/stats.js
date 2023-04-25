@@ -13,6 +13,7 @@ async function loadData(list, container) {
     let categorys = [...new Set(list.map(event => event.category))]
     categorys.forEach((category, i) => {
         let eventsBooks = list.filter(event => event.category === category);
+        console.log(category, eventsBooks);
         let percentage = Number((eventsBooks.map(event => ('assistance' in event) ? event.assistance : event.estimate)
             .reduce((acumulado, acutal) => acumulado + acutal) / eventsBooks.map(event => event.capacity)
                 .reduce((acumulado, actual) => acumulado + actual)) * 100).toFixed(0);
@@ -20,7 +21,7 @@ async function loadData(list, container) {
             .reduce((acumulado, actual) => acumulado + actual);
         container.innerHTML += `<tr>
                                     <td>${category}</td>
-                                    <td>${Number(revenues).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                                    <td>${Number(revenues).toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</td>
                                     <td> ${percentage}%</td>
                                 </tr>`;
     });
@@ -40,6 +41,6 @@ async function load() {
                                 <td>${lowest.name}</td>
                                 <td>${lowest.percentage.toFixed(0)}%</td>
                                 <td>${capacity.name}</td>
-                                <td>${capacity.capacity.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                                <td>${capacity.capacity}</td>
                             </tr>`
 }
