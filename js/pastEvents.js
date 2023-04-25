@@ -1,6 +1,6 @@
-let urlpast = "https://pro-talento.up.railway.app/api/amazing?time=past"
+let urlpast = "https://pro-talento.up.railway.app/api/amazing?time=past";
 
-fetchApi(urlpast,"past")
+fetchApi(urlpast,"past");
 
 let swiper = new Swiper(".slide-content", {
     slidesPerView: 1,

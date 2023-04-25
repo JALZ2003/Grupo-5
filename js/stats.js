@@ -1,13 +1,15 @@
 const dataUpcoming = document.querySelector('.dataUpcoming');
 const dataPast = document.querySelector('.dataPast');
 const dataEvents = document.querySelector('.dataEvents');
+const urlPast = 'https://pro-talento.up.railway.app/api/amazing?time=past';
+const urlUpcoming = 'https://pro-talento.up.railway.app/api/amazing?time=upcoming';
 
-loadData(eventsPast(), dataPast);
-loadData(eventsUpcoming(), dataUpcoming);
+loadData(urlPast, dataPast);
+loadData(urlUpcoming, dataUpcoming);
 load();
 
 async function loadData(list, container) {
-    list = await list;
+    list = await fetch(list).then(response => response.json()).then(data => data.response);
     let categorys = [...new Set(list.map(event => event.category))]
     categorys.forEach((category, i) => {
         let eventsBooks = list.filter(event => event.category === category);
@@ -25,8 +27,8 @@ async function loadData(list, container) {
 }
 
 async function load() {
-    let events = await eventsFetch();
-    let eventPast = await eventsPast();
+    let events = await fetch('https://pro-talento.up.railway.app/api/amazing').then(response => response.json()).then(data => data.response);
+    let eventPast = await fetch(urlPast).then(response => response.json()).then(data => data.response);
     let percentage = eventPast.map(event => { return { name: event.name, percentage: (event.assistance / event.capacity) * 100 } });
     let highest = percentage.reduce((acumulado, actual) => (acumulado.percentage >= actual.percentage ? acumulado : actual), percentage[0]);
     let lowest = percentage.reduce((acumulado, actual) => (acumulado.percentage <= actual.percentage ? acumulado : actual), percentage[0]);

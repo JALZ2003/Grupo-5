@@ -1,6 +1,6 @@
-let urlupcomming = "https://pro-talento.up.railway.app/api/amazing?time=upcoming"
+let urlupcomming = "https://pro-talento.up.railway.app/api/amazing?time=upcoming";
 
-fetchApi(urlupcomming,"upcoming")
+fetchApi(urlupcomming,"upcoming");
 
 let swiper = new Swiper(".slide-content", {
     slidesPerView: 1,

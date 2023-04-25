@@ -1,6 +1,6 @@
-let urlhome = "https://pro-talento.up.railway.app/api/amazing"
+let urlhome = "https://pro-talento.up.railway.app/api/amazing";
 
-fetchApi(urlhome,"home")
+fetchApi(urlhome,"home");
 
 let swiper = new Swiper(".slide-content", {
     slidesPerView: 1,

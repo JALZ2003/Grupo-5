@@ -75,25 +75,23 @@ function insertCategory(list, pagina) {
 
 async function fetchApi(url, pagina) {
     try {
-        let response = await fetch(url)
-        response = await response.json()
-        console.log(response.response)
-        insertCategory(response.response,pagina);
+        let response = await fetch(url);
+        response = await response.json();
+        insertCategory(response.response, pagina);
         insertCards(response.response);
-        document.getElementById("filter").addEventListener('click', () => { filterData(pagina) })
+        document.getElementById("filter").addEventListener('click', () => { filterData(pagina) });
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
 }
 
-
 async function filterData(pagina) {
     try {
-        let texto = document.getElementById("search").value.toLowerCase().trim()
-        let categorias = [...document.querySelectorAll(".form-check-input:checked")].map(each => each.value).join(',')
-        let url = `https://pro-talento.up.railway.app/api/amazing?time=${pagina}&name=${texto}&category=${categorias}`
-        let response = await fetch(url)
-        response = await response.json()
+        let texto = document.getElementById("search").value.toLowerCase().trim();
+        let categorias = [...document.querySelectorAll(".form-check-input:checked")].map(each => each.value).join(',');
+        let url = `https://pro-talento.up.railway.app/api/amazing?time=${pagina}&name=${texto}&category=${categorias}`;
+        let response = await fetch(url);
+        response = await response.json();
         removeElements();
         if (response.response.length != 0) {
             containerSlide.style.display = "block";
@@ -103,9 +101,9 @@ async function filterData(pagina) {
         let div = document.createElement('div');
         div.classList.add('emptyEvents');
         div.textContent = 'No existe el evento';
-        containerSlide.style.display = "none"
+        containerSlide.style.display = "none";
         containerMensaje.appendChild(div);
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
 }
