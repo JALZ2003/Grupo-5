@@ -19,9 +19,9 @@ async function loadData(list, container) {
         let revenues = eventsBooks.map(event => { return event.price * ('assistance' in event) ? event.assistance : event.estimate })
             .reduce((acumulado, actual) => acumulado + actual);
         container.innerHTML += `<tr>
-                                    <td>${category}</td>
-                                    <td>${Number(revenues).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
-                                    <td> ${percentage}%</td>
+                                    <td class="col-1 col-sm-1 col-md-2 col-lg-4">${category}</td>
+                                    <td class="col-1 col-sm-1 col-md-2 col-lg-4">${Number(revenues).toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                                    <td class="col-1 col-sm-1 col-md-2 col-lg-4"> ${percentage}%</td>
                                 </tr>`;
     });
 }
@@ -35,11 +35,11 @@ async function load() {
     let capacity = events.map(event => { return { name: event.name, capacity: event.capacity } })
         .reduce((accumulado, actual) => accumulado.capacity >= actual.capacity ? accumulado : actual);
     dataEvents.innerHTML += `<tr>
-                                <td>${highest.name}</td>
-                                <td>${highest.percentage.toFixed(0)}%</td>
-                                <td>${lowest.name}</td>
-                                <td>${lowest.percentage.toFixed(0)}%</td>
-                                <td>${capacity.name}</td>
-                                <td>${capacity.capacity.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
+                                <td class="col-2">${highest.name}</td>
+                                <td class="col-2">${highest.percentage.toFixed(0)}%</td>
+                                <td class="col-2">${lowest.name}</td>
+                                <td class="col-2">${lowest.percentage.toFixed(0)}%</td>
+                                <td class="col-2">${capacity.name}</td>
+                                <td class="col-2">${capacity.capacity.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
                             </tr>`
 }
