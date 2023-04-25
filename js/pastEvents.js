@@ -1,17 +1,11 @@
+let urlpast = "https://pro-talento.up.railway.app/api/amazing?time=past"
 
-insertCategory();
-addEventsCheckbox(eventsPast);
-insertCards(eventsPast);
-
-filterButton.addEventListener('click', () => { validateEmptyList(eventsPast) });
+fetchApi(urlpast,"past")
 
 let swiper = new Swiper(".slide-content", {
     slidesPerView: 1,
     slidesPerGroup: 1,
     spaceBetween: 10,
-    loop: true,
-    centerSlide: 'true',
-    fade: 'true',
     grabCursor: 'true',
     navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
     breakpoints: {
