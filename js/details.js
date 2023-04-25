@@ -1,7 +1,6 @@
 // usando Fetch
 
 let id = JSON.parse(sessionStorage.getItem('id'));
-// let id = "6351b0a1b82050da15b3a883"
 let url = "https://pro-talento.up.railway.app/api/amazing/" + id;
 
 async function fetchApi(url) {

@@ -18,33 +18,34 @@ function createCard(image, name, description, price, id) {
 }
 
 function setDetails(image, name, date, description, category, place, capacity, assistance, price) {
-    let imageElement = document.getElementById('image');
-    let nameElement = document.getElementById('name');
-    let dateElement = document.getElementById('date');
-    let descriptionElement = document.getElementById('description');
-    let categoryElement = document.getElementById('category');
-    let placeElement = document.getElementById('place');
-    let capacityElement = document.getElementById('capacity');
-    let assistanceElement = document.getElementById('assistance');
-    let priceElement = document.getElementById('price');
-
-    imageElement.src = image;
-    nameElement.textContent = name;
-    dateElement.textContent = "Date: " + date;
-    descriptionElement.textContent = "Description: " + description;
-    categoryElement.textContent = "Category: " + category;
-    placeElement.textContent = "Place: " + place;
-    capacityElement.textContent = "Capacity: " + capacity;
-    assistanceElement.textContent = assistance;
-    priceElement.textContent = "Price: " + price;
+    document.getElementById('detail').innerHTML = `
+    <div class="row">
+        <div class="col-0"></div>
+        <div class="col-xl-6 col-lg-6 text-center bg-body-secondary p-4">
+            <img src="${image}" class="rounded h-100 sombradetails imgdetail" alt="${name}" />
+        </div>
+        <div class="col-xl-6 col-lg-6 text-center d-flex flex-column justify-content-center bg-body-secondary p-4">
+            <h3> ${name} </h3>
+            <br />
+            <p class="fs-5 text-start"> Date: ${date} </p>
+            <p class="fs-5 text-start"> Description: ${description} </p>
+            <p class="fs-5 text-start"> Category: ${category} </p>
+            <p class="fs-5 text-start"> Place: ${place} </p>
+            <p class="fs-5 text-start"> Capacity: ${capacity} </p>
+            <p class="fs-5 text-start"> ${assistance} </p>
+            <p class="fs-5 text-start"> Price: ${price} </p>
+        </div>
+        <div class="col-0"></div>
+    </div>`
 }
 
 function saveId(id) {
     sessionStorage.setItem('id', JSON.stringify(id));
 }
 
-function insertCards(list) {
+async function insertCards(list) {
     removeElements();
+    list = await list;
     for (let i = 0; i < list.length; i++) {
         const slide = document.createElement('div');
         slide.classList.add("swiper-slide");
@@ -61,9 +62,7 @@ function removeElements() {
 
 function insertCategory(list, pagina) {
     const categoriasEventos = [...new Set(list.map(r => r.category))];
-
     categoriasEventos.forEach(r => {
-        const checksHome = document.getElementById("checksHome")
         let check = document.createElement('div');
         check.className = "form-check form-check-inline"
         check.innerHTML = `<input class="form-check-input" type="checkbox" id="${r}" value="${r}">

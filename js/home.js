@@ -14,4 +14,3 @@ let swiper = new Swiper(".slide-content", {
         1240: { slidesPerView: 4, slidesPerGroup: 4, spaceBetween: 40 },
     }
 });
-
