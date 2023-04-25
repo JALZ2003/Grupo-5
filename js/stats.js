@@ -28,13 +28,16 @@ async function load() {
     let events = await eventsFetch();
     let eventPast = await eventsPast();
     let percentage = eventPast.map(event => { return { name: event.name, percentage: (event.assistance / event.capacity) * 100 } });
-    let highest = percentage.reduce((acumulado, actual) => (acumulado.percentage >= actual.percentage ? acumulado : actual), percentage[0]).name;
-    let lowest = percentage.reduce((acumulado, actual) => (acumulado.percentage <= actual.percentage ? acumulado : actual), percentage[0]).name;
+    let highest = percentage.reduce((acumulado, actual) => (acumulado.percentage >= actual.percentage ? acumulado : actual), percentage[0]);
+    let lowest = percentage.reduce((acumulado, actual) => (acumulado.percentage <= actual.percentage ? acumulado : actual), percentage[0]);
     let capacity = events.map(event => { return { name: event.name, capacity: event.capacity } })
-        .reduce((accumulado, actual) => accumulado.capacity >= actual.capacity ? accumulado : actual).name;
+        .reduce((accumulado, actual) => accumulado.capacity >= actual.capacity ? accumulado : actual);
     dataEvents.innerHTML += `<tr>
-                                <td>${highest}</td>
-                                <td>${lowest}</td>
-                                <td>${capacity}</td>
+                                <td>${highest.name}</td>
+                                <td>${highest.percentage.toFixed(0)}%</td>
+                                <td>${lowest.name}</td>
+                                <td>${lowest.percentage.toFixed(0)}%</td>
+                                <td>${capacity.name}</td>
+                                <td>${capacity.capacity.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}</td>
                             </tr>`
 }
