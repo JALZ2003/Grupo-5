@@ -1,38 +1,6 @@
-const search = document.querySelector('#search');
-const filterButton = document.querySelector('#filter');
 const containerCards = document.querySelector('.swiper-wrapper');
 const containerSlide = document.querySelector('.slide-container');
 const containerMensaje = document.querySelector('.mensaje');
-const urlapiHome = 'https://pro-talento.up.railway.app/api/amazing';
-const urlapiPast = 'https://pro-talento.up.railway.app/api/amazing?time=past';
-const urlapiUpcommign = 'https://pro-talento.up.railway.app/api/amazing?time=upcoming';
-
-async function eventsFetch() {
-    try {
-        let events = await fetch(urlapiHome).then(response => response.json()).then(datas => datas.response);
-        return events;
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-async function eventsPast() {
-    try {
-        let events = await fetch(urlapiPast).then(response => response.json()).then(datas => datas.response);
-        return events;
-    } catch (error) {
-        console.log(error);
-    }
-}
-
-async function eventsUpcoming() {
-    try {
-        let events = await fetch(urlapiUpcommign).then(response => response.json()).then(datas => datas.response);
-        return events;
-    } catch (error) {
-        console.log(error);
-    }
-}
 
 // Crear las etiquetas correspondientes de Events.html
 function createCard(image, name, description, price, id) {
@@ -92,36 +60,8 @@ function removeElements() {
     containerMensaje.innerHTML = '';
 }
 
-async function filters(url) {
-    const allChecks = document.querySelectorAll(".form-check-input");
-    const valores = [...allChecks].filter(f => f.checked).map(f => f.value);
-    let categorys = "";
-    for (let i = 0; i < valores.length; i++) {
-        const element = valores[i];
-        if (i != valores.length - 1) {
-            categorys += element + ",";
-        } else {
-            categorys += element;
-        }
-    }
-    let eventos = await fetch(url + "category=" + categorys + "&name=" + search.value).then(response => response.json()).then(datas => datas.response);
-    removeElements();
-    if (eventos.length != 0) {
-        containerSlide.style.display = "block";
-        insertCards(eventos);
-        return;
-    }
-    let div = document.createElement('div');
-    div.classList.add('emptyEvents');
-    div.textContent = 'No existe el evento';
-    containerSlide.style.display = "none"
-    containerMensaje.appendChild(div);
-}
-
-async function insertCategory(url) {
-    let eventos = await eventsFetch();
-    const categoriasEventos = [...new Set(eventos.map(r => r.category))];
-    const checksHome = document.getElementById("checksHome");
+function insertCategory(list, pagina) {
+    const categoriasEventos = [...new Set(list.map(r => r.category))];
     categoriasEventos.forEach(r => {
         let check = document.createElement('div');
         check.className = "form-check form-check-inline"
@@ -130,5 +70,42 @@ async function insertCategory(url) {
         checksHome.appendChild(check)
     });
     const allChecks = document.querySelectorAll(".form-check-input");
-    allChecks.forEach(f => f.addEventListener('change', () => { filters(url); }));
+    allChecks.forEach(f => f.addEventListener('change', () => { filterData(pagina) }));
+}
+
+async function fetchApi(url, pagina) {
+    try {
+        let response = await fetch(url)
+        response = await response.json()
+        console.log(response.response)
+        insertCategory(response.response,pagina);
+        insertCards(response.response);
+        document.getElementById("filter").addEventListener('click', () => { filterData(pagina) })
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+
+async function filterData(pagina) {
+    try {
+        let texto = document.getElementById("search").value.toLowerCase().trim()
+        let categorias = [...document.querySelectorAll(".form-check-input:checked")].map(each => each.value).join(',')
+        let url = `https://pro-talento.up.railway.app/api/amazing?time=${pagina}&name=${texto}&category=${categorias}`
+        let response = await fetch(url)
+        response = await response.json()
+        removeElements();
+        if (response.response.length != 0) {
+            containerSlide.style.display = "block";
+            insertCards(response.response);
+            return;
+        }
+        let div = document.createElement('div');
+        div.classList.add('emptyEvents');
+        div.textContent = 'No existe el evento';
+        containerSlide.style.display = "none"
+        containerMensaje.appendChild(div);
+    } catch (error) {
+        console.log(error)
+    }
 }

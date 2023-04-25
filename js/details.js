@@ -1,14 +1,23 @@
+// usando Fetch
 
-createDetails();
+let id = JSON.parse(sessionStorage.getItem('id'));
+let url = "https://pro-talento.up.railway.app/api/amazing/" + id;
 
-async function createDetails() {
-    let id = JSON.parse(sessionStorage.getItem('id'));
-    let card = await fetch(`https://pro-talento.up.railway.app/api/amazing/${id}`).then(response => response.json()).then(data => data.response);
-    let assistance;
-    if ("assistance" in card) {
-        assistance = "Assistance: " + card.assistance;
-    } else {
-        assistance = "Estimate: " + card.estimate;
+async function fetchApi(url) {
+    try {
+        let response = await fetch(url); //fetcheo la API
+        response = await response.json(); //Transformo la API en datos que pueda usar
+        let { image, name, category, price, description, date, assistance, capacity, place } = response.response  // con esto podemos hacer todo lo de las lineas anteriores resumido
+        if ("assistance" in response.response) {
+            assistance = "Assistance: " + assistance;
+        } else {
+            assistance = "Estimate: " + response.response.estimate;
+        }
+        setDetails(image, name, date, description, category, place, capacity, assistance, price)
+    } catch (error) {
+        console.log(error)
     }
-    setDetails(card.image, card.name, card.date, card.description, card.category, card.place, card.capacity, assistance, card.price);
 }
+
+fetchApi(url);
+

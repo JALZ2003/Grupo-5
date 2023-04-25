@@ -1,8 +1,6 @@
+let urlhome = "https://pro-talento.up.railway.app/api/amazing"
 
-insertCategory(urlapiHome + "?");
-insertCards(eventsFetch());
-
-filterButton.addEventListener('click', () => { filters(urlapiHome + "?"); });
+fetchApi(urlhome,"home")
 
 let swiper = new Swiper(".slide-content", {
     slidesPerView: 1,
@@ -16,4 +14,3 @@ let swiper = new Swiper(".slide-content", {
         1240: { slidesPerView: 4, slidesPerGroup: 4, spaceBetween: 40 },
     }
 });
-
