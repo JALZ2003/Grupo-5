@@ -26,23 +26,15 @@ async function loadData(list, container) {
 
 async function load() {
     let events = await eventsFetch();
-    let percentage = events.map(event => {
-        return { name: event.name, percentage: (('assistance' in event) ? event.assistance : event.estimate / event.capacity) * 100 }
-    }).sort((a, b) => b.percentage - a.percentage);
-    let capacity = events.map(event => { return { name: event.name, capacity: event.capacity } });
-    let datas = [];
-    for (let i = 0; i < percentage.length; i++) {
-        let nameHighest = percentage[i].name;
-        let nameLowest = percentage[percentage.length - i - 1].name;
-        let nameCapacity = capacity[i].name;
-        let object = { highest: nameHighest, lowest: nameLowest, capacity: nameCapacity };
-        datas.push(object);
-    }
-    datas.forEach(event => {
-        dataEvents.innerHTML += `<tr>
-                                    <td>${event.highest}</td>
-                                    <td>${event.lowest}</td>
-                                    <td>${event.capacity}</td>
-                                </tr>`
-    })
+    let eventPast = await eventsPast();
+    let percentage = eventPast.map(event => { return { name: event.name, percentage: (event.assistance / event.capacity) * 100 } });
+    let highest = percentage.reduce((acumulado, actual) => (acumulado.percentage >= actual.percentage ? acumulado : actual), percentage[0]).name;
+    let lowest = percentage.reduce((acumulado, actual) => (acumulado.percentage <= actual.percentage ? acumulado : actual), percentage[0]).name;
+    let capacity = events.map(event => { return { name: event.name, capacity: event.capacity } })
+        .reduce((accumulado, actual) => accumulado.capacity >= actual.capacity ? accumulado : actual).name;
+    dataEvents.innerHTML += `<tr>
+                                <td>${highest}</td>
+                                <td>${lowest}</td>
+                                <td>${capacity}</td>
+                            </tr>`
 }
